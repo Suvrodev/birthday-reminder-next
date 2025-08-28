@@ -53,9 +53,9 @@ const UserDrawer = ({ isOpen, setIsOpen }: Props) => {
           className="flex flex-col items-center gap-2 mb-8 mt-20 md:mt-0 "
         >
           <div className="w-28 h-28 relative rounded-full overflow-hidden border-4 border-white shadow-lg">
-            {user?.image && (
+            {user?.profileImage && (
               <Image
-                src={user.image}
+                src={user.profileImage}
                 alt="User"
                 fill
                 className="object-cover"

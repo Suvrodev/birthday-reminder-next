@@ -4,9 +4,16 @@ import React, { useState, useRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Image from "next/image";
 import { useAppSelector } from "@/components/redux/hooks";
-import { useGetMeQuery } from "@/components/redux/api/authApi";
+import {
+  useGetMeQuery,
+  useUpdateUserMutation,
+} from "@/components/redux/api/authApi";
 import { compressAndConvertToBase64 } from "@/components/utils/Function/convertToBase64/compressAndConvertToBase64";
 import MyProfileLoading from "./MyProfileLoading";
+import { TLoggedUser } from "@/components/utils/globalTypes/globalTypes";
+import { verifyToken } from "@/components/utils/Function/verifyToken";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/components/redux/features/auth/authSlice";
 
 type FormValues = {
   firstName: string;
@@ -19,12 +26,14 @@ type FormValues = {
 };
 
 const MyProfile = () => {
+  const dispatch = useDispatch();
+  const [updateMe] = useUpdateUserMutation();
   const { user } = useAppSelector((state) => state.auth);
   const { data, isLoading } = useGetMeQuery(user?.email ?? "", {
     skip: !user?.email,
   });
 
-  const me = data?.data;
+  const me: TLoggedUser = data?.data;
 
   const {
     register,
@@ -59,9 +68,9 @@ const MyProfile = () => {
         phone: me.phone || "",
         whatsapp: me.whatsapp || "",
         facebook: me.facebook || "",
-        profileImage: me.image || "",
+        profileImage: me.profileImage || "",
       });
-      setPreview(me.image || null);
+      setPreview(me.profileImage || null);
     }
   }, [me, reset]);
 
@@ -69,9 +78,16 @@ const MyProfile = () => {
   const onSubmit = async (data: FormValues) => {
     setIsSaving(true);
     console.log("Profile Updated:", data);
-
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const res = await updateMe({
+      email: user?.email,
+      updateData: data,
+    }).unwrap();
+    console.log("Res: ", res);
+    const token = res?.data;
+    console.log("Token: ", token);
+    const updatedUser = verifyToken(token);
+    console.log("Updated User: ", updatedUser);
+    dispatch(setUser({ token: token, user: updatedUser }));
 
     setIsEditing(false);
     setIsSaving(false);

@@ -1,7 +1,6 @@
 "use client";
 
 import { headerComponents } from "@/components/utils/Array/HeaderComponents";
-import { THeader } from "@/components/utils/globalTypes/globalTypes";
 import { motion } from "framer-motion";
 import Link from "next/link";
 
@@ -29,7 +28,7 @@ const Drawer = ({ isOpen, setIsOpen }: Props) => {
         className="fixed top-0 left-0 w-64 h-full bg-white z-50 shadow-md p-4"
       >
         <div className="flex flex-col  mt-10">
-          {headerComponents.map((data: THeader, idx: number) => (
+          {headerComponents.map((data, idx: number) => (
             <Link
               href={data.path}
               key={idx}

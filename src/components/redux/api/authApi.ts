@@ -15,51 +15,25 @@ const authApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
-
-    registration: builder.mutation({
-      query: (data) => {
-        return {
-          url: "/auth/register",
-          method: "POST",
-          body: data,
-        };
-      },
-    }),
-
-    getAllAdmin: builder.query({
-      query: () => {
-        return {
-          url: "/auth/all-admin",
-        };
-      },
-      providesTags: ["admin"],
-    }),
-    getSingleAdmin: builder.query({
-      query: (email) => {
-        return {
-          url: `/auth/all-admin/${email}`,
-        };
-      },
-    }),
-    deleteAdmin: builder.mutation({
-      query: (email) => {
-        return {
-          url: `/auth/all-admin/${email}`,
-          method: "DELETE",
-        };
-      },
-      invalidatesTags: ["admin"],
-    }),
-    updateAdmin: builder.mutation({
+    updateUser: builder.mutation({
       query: ({ email, updateData }) => {
         console.log("Update Admin data: ", updateData);
         return {
-          url: `/auth/all-admin/${email}`,
+          url: `/login/update/${email}`,
           method: "PATCH",
           body: updateData,
         };
       },
-      invalidatesTags: ["admin"],
+      invalidatesTags: ["user"],
+    }),
+
+    getAllUser: builder.query({
+      query: () => {
+        return {
+          url: "/login/all-user",
+        };
+      },
+      providesTags: ["user"],
     }),
   }),
 });
@@ -67,8 +41,6 @@ const authApi = baseApi.injectEndpoints({
 export const {
   useLoginMutation,
   useGetMeQuery,
-  useRegistrationMutation,
-  useGetAllAdminQuery,
-  useDeleteAdminMutation,
-  useUpdateAdminMutation,
+  useUpdateUserMutation,
+  useGetAllUserQuery,
 } = authApi;

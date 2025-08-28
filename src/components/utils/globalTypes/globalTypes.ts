@@ -3,7 +3,7 @@ export type TLoggedUser = {
   lastName?: string;
   email: string;
   role?: string;
-  image: string;
+  profileImage: string;
   phone?: string;
   whatsapp?: string;
   facebook?: string;
