@@ -1,52 +1,127 @@
 "use client";
-import logo from "@/app/assets/logo/logo-3.jpeg";
+import logo from "@/app/assets/logo/logo-1.jpg";
 import { THeader } from "@/components/utils/globalTypes/globalTypes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { headerComponents } from "@/components/utils/Array/HeaderComponents";
 import LoginCheck from "../../Login/LoginCheck/LoginCheck";
+import { useState } from "react";
 
 const PublicHeader = () => {
   const path = usePathname();
-  // console.log("Path: ", path);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <div className="shadow-md   sticky top-0 z-10 bg-white">
-      <div className="flex items-center justify-between max-w-7xl mx-auto py-2">
-        <Link href={"/"} className="flex items-center gap-x-2 w-1/3">
-          <Image
-            src={logo}
-            alt="Tutor Point"
-            width={65}
-            className="rounded-xl"
-          />
-          <h1 className="text-2xl font-bold text-[#6741E9]">Tutor Point</h1>
-        </Link>
-        <div className="flex gap-4 justify-center items-center  w-1/3">
-          {headerComponents.map((data: THeader, idx: number) => (
-            <Link
-              href={data.path}
-              key={idx}
-              className={`${data.path == path ? "text-blue-500 " : ""}`}
-            >
-              <div className="relative">
+    <header className="sticky top-0 z-50 bg-white shadow-lg">
+      <div className="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo Section */}
+          <Link href="/" className="flex items-center gap-x-3 flex-shrink-0">
+            <div className="relative w-12 h-12 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-700 flex items-center justify-center">
+              <Image
+                src={logo}
+                alt="Tutor Point"
+                width={48}
+                height={48}
+                className="rounded-md"
+              />
+            </div>
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-700 bg-clip-text text-transparent">
+              Tutor Point
+            </h1>
+          </Link>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center space-x-1">
+            {headerComponents.map((data: THeader, idx: number) => (
+              <Link
+                href={data.path}
+                key={idx}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  data.path === path
+                    ? "text-white bg-gradient-to-r from-purple-600 to-indigo-700 shadow-md"
+                    : "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
+                }`}
+              >
                 {data.label}
-                <p
-                  className={`${
-                    data.path == path
-                      ? "absolute w-full h-[1px] bg-blue-600"
-                      : ""
-                  }`}
-                ></p>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Login Section */}
+          <div className="hidden md:flex items-center justify-end flex-shrink-0">
+            <LoginCheck />
+          </div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-purple-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
+              aria-expanded="false"
+            >
+              <span className="sr-only">Open main menu</span>
+              {/* Hamburger icon */}
+              <svg
+                className={`${isMenuOpen ? "hidden" : "block"} h-6 w-6`}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+              {/* Close icon */}
+              <svg
+                className={`${isMenuOpen ? "block" : "hidden"} h-6 w-6`}
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
-        <div className="w-1/3 flex justify-end">
-          <LoginCheck />
+
+        {/* Mobile Navigation Menu */}
+        <div className={`${isMenuOpen ? "block" : "hidden"} md:hidden`}>
+          <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white border-t rounded-b-md shadow-lg">
+            {headerComponents.map((data: THeader, idx: number) => (
+              <Link
+                href={data.path}
+                key={idx}
+                className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                  data.path === path
+                    ? "text-white bg-gradient-to-r from-purple-600 to-indigo-700"
+                    : "text-gray-700 hover:text-purple-600 hover:bg-purple-50"
+                }`}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {data.label}
+              </Link>
+            ))}
+            <div className="pt-4 pb-2 border-t border-gray-200">
+              <LoginCheck />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
