@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { verifyToken } from "../Function/verifyToken";
 
 export const getCurrentUserToken = async () => {
-  const token = (await cookies()).get("b-r")?.value;
+  const token = (await cookies()).get("z_br")?.value;
 
   if (!token) return null;
 
@@ -16,7 +16,7 @@ export const getCurrentUserToken = async () => {
 };
 
 export const getCurrentUserRole = async () => {
-  const token = (await cookies()).get("token")?.value;
+  const token = (await cookies()).get("z_br")?.value;
 
   if (!token) return false;
   console.log("Token-----", token);
@@ -30,5 +30,5 @@ export const getCurrentUserRole = async () => {
 
 export const clearTokenAction = async () => {
   // To clear a cookie, set it with maxAge=0 or expires in the past
-  (await cookies()).set("b-r", "", { path: "/", maxAge: 0 });
+  (await cookies()).set("z_br", "", { path: "/", maxAge: 0 });
 };

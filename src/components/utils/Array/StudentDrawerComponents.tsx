@@ -11,7 +11,7 @@ export const USerDrawerComponents = [
   {
     label: "Add Friend",
     icon: <PlusSquare size={20} />,
-    path: "/user-dashboard/add-post",
+    path: "/user-dashboard/add-friend",
   },
   {
     label: "Birthday",

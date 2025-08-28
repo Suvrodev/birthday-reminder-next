@@ -1,0 +1,140 @@
+"use client";
+import { setTokenAction } from "@/components/utils/authService/SetUser";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/components/redux/features/auth/authSlice";
+import { toast } from "sonner";
+import { sonarId } from "@/components/utils/Function/sonarId";
+import { verifyToken } from "@/components/utils/Function/verifyToken";
+
+import {
+  GoogleOAuthProvider,
+  GoogleLogin,
+  CredentialResponse,
+} from "@react-oauth/google";
+// import { useLoginMutation } from "@/components/redux/api/authApi";
+
+const clientId =
+  "1024658014282-cotu2sij52c1hkh8bukfnpmdlpk8n6cp.apps.googleusercontent.com";
+
+const CustomGoogleLogin = () => {
+  // const [doLogin] = useLoginMutation();
+  const dispatch = useDispatch();
+
+  // const login = useGoogleLogin({
+  //   onSuccess: async (tokenResponse) => {
+  //     if (!tokenResponse?.access_token) return;
+  //     setLoading(true);
+  //     try {
+  //       // Server API call with Google access token + role
+  //       const res = await fetch(
+  //         "https://tutor-point-backend-ten.vercel.app/v1/auth/google",
+  //         {
+  //           method: "POST",
+  //           headers: { "Content-Type": "application/json" },
+  //           body: JSON.stringify({
+  //             idToken: tokenResponse.access_token,
+  //             role,
+  //           }),
+  //         }
+  //       );
+
+  //       if (!res.ok) throw new Error("Failed to login with Google");
+
+  //       const data = await res.json();
+
+  //       if (data?.status) {
+  //         // ✅ set token in cookies
+  //         await setTokenAction(data?.accessToken);
+
+  //         // ✅ update redux store
+  //         const currentUser = verifyToken(data?.accessToken);
+  //         dispatch(setUser({ user: currentUser, token: data?.accessToken }));
+
+  //         toast.success("Login Successfully", { id: sonarId });
+  //       }
+  //     } catch (err) {
+  //       console.error("Login error:", err);
+  //       toast.error("Google login failed");
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   },
+  //   onError: () => {
+  //     toast.error("Google Login Failed");
+  //   },
+  //   flow: "implicit", // direct access token
+  // });
+
+  const handleSuccess = async (response: CredentialResponse) => {
+    if (!response.credential) return;
+
+    const idToken = response.credential;
+    console.log("id Token: ", idToken);
+    const soUser = verifyToken(idToken);
+    console.log("so User: ", soUser);
+
+    const userBody = {
+      firstName: soUser?.given_name,
+      lastName: soUser?.family_name,
+      email: soUser?.email,
+      profileImage: soUser?.picture,
+    };
+
+    console.log("Wait userBody: ", userBody);
+    try {
+      // 1️⃣ server API call
+      const res = await fetch("http://localhost:7000/api/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userBody),
+      });
+
+      if (!res.ok) throw new Error("Login failed");
+
+      const loginResponse = await res.json();
+      console.log("Login Response: ", loginResponse);
+
+      if (loginResponse?.success) {
+        // 2️⃣ set token in cookie
+        console.log("-----------", loginResponse?.data?.token);
+        await setTokenAction(loginResponse?.data?.token);
+
+        /***
+         * Wow start
+         */
+
+        await fetch("/api/set-token", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: loginResponse.data.token }),
+          credentials: "include", // important for cookies
+        });
+        /***
+         * Wow end
+         */
+
+        // 3️⃣ redux update
+        const currentUser = verifyToken(loginResponse?.data?.token);
+        dispatch(
+          setUser({ token: loginResponse?.data?.token, user: currentUser })
+        );
+
+        toast.success("Login Successfully", { id: sonarId });
+      }
+    } catch (err) {
+      console.error("Login error:", err);
+      toast.error("Google login failed");
+    }
+  };
+
+  const handleError = () => {
+    console.log("Google Login Failed");
+  };
+  return (
+    <GoogleOAuthProvider clientId={clientId}>
+      <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
+    </GoogleOAuthProvider>
+  );
+};
+
+export default CustomGoogleLogin;

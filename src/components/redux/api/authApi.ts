@@ -10,10 +10,13 @@ const authApi = baseApi.injectEndpoints({
       }),
     }),
     getMe: builder.query({
-      query: (email: string) => ({
-        url: `/login/me/${email}`,
-        method: "GET",
-      }),
+      query: (email: string) => {
+        console.log("Email passed to getMe query:", email); // ✅ Check email here
+        return {
+          url: `/login/me/${email}`,
+          method: "GET",
+        };
+      },
     }),
     updateUser: builder.mutation({
       query: ({ email, updateData }) => {

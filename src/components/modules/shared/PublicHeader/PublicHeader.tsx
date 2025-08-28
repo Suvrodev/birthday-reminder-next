@@ -1,12 +1,12 @@
 "use client";
 import logo from "@/app/assets/logo/logo-1.jpg";
-import { THeader } from "@/components/utils/globalTypes/globalTypes";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { headerComponents } from "@/components/utils/Array/HeaderComponents";
 import LoginCheck from "../../LoggedUser/Login/LoginCheck/LoginCheck";
 import { useState } from "react";
+import { THeader } from "@/components/utils/globalTypes/globalTypes";
 
 const PublicHeader = () => {
   const path = usePathname();

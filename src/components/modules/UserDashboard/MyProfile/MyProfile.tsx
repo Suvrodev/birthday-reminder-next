@@ -29,11 +29,13 @@ const MyProfile = () => {
   const dispatch = useDispatch();
   const [updateMe] = useUpdateUserMutation();
   const { user } = useAppSelector((state) => state.auth);
+  console.log("Fucking user: ", user);
   const { data, isLoading } = useGetMeQuery(user?.email ?? "", {
     skip: !user?.email,
   });
 
   const me: TLoggedUser = data?.data;
+  console.log("Me: ", me);
 
   const {
     register,

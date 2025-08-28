@@ -15,7 +15,7 @@ const LoginCheck = () => {
         <div className="flex items-center justify-center gap-x-2 ">
           <div className="hidden md:block">
             <Image
-              src={user?.image}
+              src={user?.profileImage}
               alt=""
               height={50}
               width={50}

@@ -55,6 +55,19 @@ const CustomGoogleLogin = () => {
         const userInfoByDecode: TLoggedUser = await verifyToken(token);
         console.log("User Info by Decode: ", userInfoByDecode);
         await setTokenAction(token);
+        /***
+         * Wow start
+         */
+
+        await fetch("/api/set-token", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: token }),
+          credentials: "include", // important for cookies
+        });
+        /***
+         * Wow end
+         */
         dispatch(setUser({ user: userInfoByDecode, token }));
         toast.success("Login Successfully", { id: sonarId });
         router.push(`${userInfoByDecode.role}-dashboard`);

@@ -16,6 +16,7 @@ interface Props {
 const UserDrawer = ({ isOpen, setIsOpen }: Props) => {
   const { user } = useAppSelector((state) => state.auth);
   const path = usePathname();
+  console.log("User in Drawwr: ", user);
   // console.log("Path: ", path);
   return (
     <>

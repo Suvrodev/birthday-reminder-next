@@ -17,6 +17,7 @@ const InnerProviders = ({ children }: IProps) => {
   useEffect(() => {
     const fetchToken = async () => {
       const token = await getCurrentUserToken();
+      console.log("Token from Innter Provider: ", token);
       if (token) {
         const currentUser = verifyToken(token);
         dispatch(setUser({ user: currentUser, token }));

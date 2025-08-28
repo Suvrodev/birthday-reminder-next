@@ -9,3 +9,12 @@ export type TLoggedUser = {
   facebook?: string;
   isBlocked?: boolean;
 };
+
+export type TBanner = {
+  title: string;
+  url: string;
+};
+export type THeader = {
+  path: string;
+  label: string;
+};

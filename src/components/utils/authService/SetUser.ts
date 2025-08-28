@@ -3,5 +3,5 @@
 
 import { cookies } from "next/headers";
 export const setTokenAction = async (token: string) => {
-  (await cookies()).set("b-r", token);
+  (await cookies()).set("zbirthday", token);
 };
