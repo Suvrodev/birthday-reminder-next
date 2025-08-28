@@ -3,10 +3,10 @@
 import { USerDrawerComponents } from "@/components/utils/Array/StudentDrawerComponents";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import Dristy from "@/app/assets/logo/logo-3.jpeg";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logout from "@/components/modules/LoggedUser/Login/UserResponsibility/Logout/Logout";
+import { useAppSelector } from "@/components/redux/hooks";
 
 interface Props {
   isOpen: boolean;
@@ -14,8 +14,9 @@ interface Props {
 }
 
 const UserDrawer = ({ isOpen, setIsOpen }: Props) => {
+  const { user } = useAppSelector((state) => state.auth);
   const path = usePathname();
-  console.log("Path: ", path);
+  // console.log("Path: ", path);
   return (
     <>
       {/* Overlay with smooth animation */}
@@ -52,20 +53,22 @@ const UserDrawer = ({ isOpen, setIsOpen }: Props) => {
           className="flex flex-col items-center gap-2 mb-8 mt-20 md:mt-0 "
         >
           <div className="w-28 h-28 relative rounded-full overflow-hidden border-4 border-white shadow-lg">
-            <Image
-              src={Dristy}
-              alt="User"
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              priority
-            />
+            {user?.image && (
+              <Image
+                src={user.image}
+                alt="User"
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority
+              />
+            )}
           </div>
           <div className="text-center mt-4">
             <h2 className="font-semibold text-xl text-gray-800">
-              Dristy Mojumder
+              <span> {user?.firstName} </span> <span> {user?.lastName} </span>
             </h2>
-            <p className="text-sm text-gray-500 mt-1">Student</p>
+            <p className="text-sm text-gray-500 mt-1 uppercase">{user?.role}</p>
           </div>
         </motion.div>
 

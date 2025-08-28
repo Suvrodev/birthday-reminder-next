@@ -9,6 +9,13 @@ const authApi = baseApi.injectEndpoints({
         body: adminInfo,
       }),
     }),
+    getMe: builder.query({
+      query: (email: string) => ({
+        url: `/login/me/${email}`,
+        method: "GET",
+      }),
+    }),
+
     registration: builder.mutation({
       query: (data) => {
         return {
@@ -59,6 +66,7 @@ const authApi = baseApi.injectEndpoints({
 
 export const {
   useLoginMutation,
+  useGetMeQuery,
   useRegistrationMutation,
   useGetAllAdminQuery,
   useDeleteAdminMutation,
