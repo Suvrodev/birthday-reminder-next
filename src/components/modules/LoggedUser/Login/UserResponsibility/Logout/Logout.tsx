@@ -3,8 +3,8 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { clearTokenAction } from "@/components/utils/authService/getCurrentUser";
-import { useAppDispatch } from "@/redux/hooks";
-import { logOut } from "@/redux/features/auth/authSlice";
+import { useAppDispatch } from "@/components/redux/hooks";
+import { logOut } from "@/components/redux/features/auth/authSlice";
 
 const Logout = () => {
   const dispatch = useAppDispatch();

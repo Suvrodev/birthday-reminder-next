@@ -5,7 +5,7 @@ import { cookies } from "next/headers";
 import { verifyToken } from "../Function/verifyToken";
 
 export const getCurrentUserToken = async () => {
-  const token = (await cookies()).get("tutor")?.value;
+  const token = (await cookies()).get("b-r")?.value;
 
   if (!token) return null;
 
@@ -30,5 +30,5 @@ export const getCurrentUserRole = async () => {
 
 export const clearTokenAction = async () => {
   // To clear a cookie, set it with maxAge=0 or expires in the past
-  (await cookies()).set("tutor", "", { path: "/", maxAge: 0 });
+  (await cookies()).set("b-r", "", { path: "/", maxAge: 0 });
 };
