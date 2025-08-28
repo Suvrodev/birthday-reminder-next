@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { headerComponents } from "@/components/utils/Array/HeaderComponents";
-import LoginCheck from "../../Login/LoginCheck/LoginCheck";
+import LoginCheck from "../../LoggedUser/Login/LoginCheck/LoginCheck";
 import { useState } from "react";
 
 const PublicHeader = () => {
