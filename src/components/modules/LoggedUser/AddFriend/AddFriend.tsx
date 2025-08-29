@@ -3,6 +3,8 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import Image from "next/image";
 import { compressAndConvertToBase64 } from "@/components/utils/Function/convertToBase64/compressAndConvertToBase64";
+import { useAppSelector } from "@/components/redux/hooks";
+import { useAddFriendMutation } from "@/components/redux/features/friend/friendsApi";
 
 interface FriendFormData {
   name: string;
@@ -14,6 +16,8 @@ interface FriendFormData {
 }
 
 const AddFriend = () => {
+  const { user } = useAppSelector((state) => state.auth);
+  const [addFriend] = useAddFriendMutation();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -46,8 +50,16 @@ const AddFriend = () => {
 
   const onSubmit = async (data: FriendFormData) => {
     setIsSubmitting(true);
-    console.log("Form Data:", data); // data.photo is base64 string
-    // Send `data` to your API here
+
+    const finalData = {
+      ...data,
+      ref: user?.email,
+    };
+    console.log("Form Data:", finalData);
+
+    const res = await addFriend(finalData).unwrap();
+    console.log("Res: ", res);
+
     reset();
     setImagePreview(null);
     setIsSubmitting(false);
