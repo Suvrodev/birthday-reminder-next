@@ -1,0 +1,294 @@
+// "use client";
+
+// import React, { useState, useRef, useEffect } from "react";
+// import { useForm } from "react-hook-form";
+// import Image from "next/image";
+// import { useAppSelector } from "@/components/redux/hooks";
+// import {
+//   useGetMeQuery,
+//   useUpdateUserMutation,
+// } from "@/components/redux/api/authApi";
+// import MyProfileLoading from "./MyProfileLoading";
+// import { TLoggedUser } from "@/components/utils/globalTypes/globalTypes";
+// import { verifyToken } from "@/components/utils/Function/verifyToken";
+// import { useDispatch } from "react-redux";
+// import { setUser } from "@/components/redux/features/auth/authSlice";
+// import { uploadToCloudinary } from "@/components/utils/UploadToCloudinary/UploadToCloudinary";
+// import { toast } from "sonner";
+// import { sonarId } from "@/components/utils/Function/sonarId";
+
+// type FormValues = {
+//   firstName: string;
+//   lastName: string;
+//   email: string;
+//   phone?: string;
+//   whatsapp?: string;
+//   facebook?: string;
+//   profileImage?: string; // Cloudinary link
+// };
+
+// const MyProfile = () => {
+//   const dispatch = useDispatch();
+//   const [updateMe] = useUpdateUserMutation();
+//   const { user } = useAppSelector((state) => state.auth);
+
+//   const { data, isLoading } = useGetMeQuery(user?.email ?? "", {
+//     skip: !user?.email,
+//   });
+
+//   const me: TLoggedUser = data?.data;
+
+//   const { register, handleSubmit, reset } = useForm<FormValues>({
+//     defaultValues: {
+//       firstName: "",
+//       lastName: "",
+//       email: "",
+//       phone: "",
+//       whatsapp: "",
+//       facebook: "",
+//       profileImage: "",
+//     },
+//   });
+
+//   const [preview, setPreview] = useState<string | null>(null);
+//   const [selectedFile, setSelectedFile] = useState<File | null>(null);
+//   const [isEditing, setIsEditing] = useState(false);
+//   const [isSaving, setIsSaving] = useState(false);
+//   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+//   // Update form values when user data loads
+//   useEffect(() => {
+//     if (me) {
+//       reset({
+//         firstName: me.firstName,
+//         lastName: me.lastName,
+//         email: me.email,
+//         phone: me.phone || "",
+//         whatsapp: me.whatsapp || "",
+//         facebook: me.facebook || "",
+//         profileImage: me.profileImage || "",
+//       });
+//       setPreview(me.profileImage || null);
+//     }
+//   }, [me, reset]);
+
+//   // Submit handler
+//   const onSubmit = async (data: FormValues) => {
+//     console.log("Start");
+//     setIsSaving(true);
+
+//     let imageUrl = me?.profileImage || "";
+
+//     // যদি নতুন file select করা হয় → Cloudinary তে upload
+//     if (selectedFile) {
+//       try {
+//         imageUrl = await uploadToCloudinary(selectedFile);
+//       } catch (error) {
+//         console.error("Cloudinary upload failed:", error);
+//         setIsSaving(false);
+//         return;
+//       }
+//     }
+
+//     console.log("Image url: ", imageUrl);
+
+//     const updatedData = { ...data, profileImage: imageUrl };
+//     console.log("Data for Update: ", updatedData);
+
+//     const res = await updateMe({
+//       email: user?.email,
+//       updateData: updatedData,
+//     }).unwrap();
+
+//     console.log("Res: ", res);
+
+//     if (res?.success) {
+//       const token = res?.data;
+//       const updatedUser = verifyToken(token);
+//       console.log("New Token: ", token);
+//       console.log("Updated user: ", updatedUser);
+
+//       await fetch("/api/set-token", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({ token }),
+//         credentials: "include",
+//       });
+
+//       dispatch(setUser({ token, user: updatedUser }));
+
+//       setIsEditing(false);
+//       setIsSaving(false);
+//       toast.success("Updated Successfully", { id: sonarId });
+//     }
+//   };
+
+//   // Handle image preview + file select
+//   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     if (e.target.files && e.target.files[0]) {
+//       const file = e.target.files[0];
+//       setSelectedFile(file);
+//       const previewURL = URL.createObjectURL(file);
+//       setPreview(previewURL);
+//     }
+//   };
+
+//   const triggerFileSelect = () => {
+//     if (isEditing) fileInputRef.current?.click();
+//   };
+
+//   if (isLoading) {
+//     return <MyProfileLoading />;
+//   }
+
+//   return (
+//     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4 md:p-8">
+//       <div className="w-full max-w-4xl bg-white shadow-2xl rounded-3xl overflow-hidden transition-all duration-300 hover:shadow-xl">
+//         {/* Header */}
+//         <div className="relative bg-gradient-to-r from-blue-700 via-indigo-700 to-purple-700 text-white p-8 flex flex-col md:flex-row justify-between items-center">
+//           <div className="flex-1 mb-4 md:mb-0">
+//             <h2 className="text-3xl font-bold mb-2">My Profile</h2>
+//             <p className="text-blue-100 text-opacity-80">
+//               {isEditing
+//                 ? "Edit your profile information below"
+//                 : "View and manage your profile information"}
+//             </p>
+//           </div>
+//           <button
+//             onClick={() => setIsEditing(!isEditing)}
+//             className="bg-white text-blue-700 font-medium py-3 px-6 rounded-xl shadow-lg hover:bg-blue-50 hover:scale-105 transition-all duration-200 flex items-center space-x-2"
+//           >
+//             <span>{isEditing ? "Discard Changes" : "Edit Profile"}</span>
+//           </button>
+//         </div>
+
+//         {/* Form Content */}
+//         <form onSubmit={handleSubmit(onSubmit)} className="p-8 space-y-8">
+//           {/* Profile Image */}
+//           <div className="flex flex-col items-center">
+//             <div className="relative group">
+//               <div
+//                 onClick={triggerFileSelect}
+//                 className={`relative w-40 h-40 rounded-full overflow-hidden border-4 border-white shadow-2xl cursor-pointer transition-all duration-300 ${
+//                   isEditing
+//                     ? "hover:border-blue-400 hover:scale-105 group-hover:shadow-lg"
+//                     : "cursor-default"
+//                 }`}
+//               >
+//                 {preview && (
+//                   <Image
+//                     src={preview}
+//                     alt="Profile"
+//                     fill
+//                     className="object-cover"
+//                     unoptimized
+//                   />
+//                 )}
+//               </div>
+//             </div>
+//             <input
+//               type="file"
+//               accept="image/*"
+//               ref={fileInputRef}
+//               onChange={handleImageChange}
+//               className="hidden"
+//               disabled={!isEditing}
+//             />
+//           </div>
+
+//           {/* Email (non-editable) */}
+//           <div>
+//             <label className="block text-gray-700 font-medium mb-2">
+//               Email Address
+//             </label>
+//             <input
+//               type="email"
+//               {...register("email")}
+//               className="w-full border border-gray-200 rounded-xl px-5 py-4 bg-gray-50 cursor-not-allowed"
+//               disabled
+//             />
+//           </div>
+
+//           {/* First & Last Name */}
+//           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//             <div>
+//               <label className="block text-gray-700 font-medium mb-2">
+//                 First Name
+//               </label>
+//               <input
+//                 type="text"
+//                 {...register("firstName", {
+//                   required: "First name is required",
+//                 })}
+//                 className={`w-full border rounded-xl px-5 py-4 ${
+//                   !isEditing ? "bg-gray-100 cursor-not-allowed" : "bg-white"
+//                 }`}
+//                 disabled={!isEditing}
+//               />
+//             </div>
+
+//             <div>
+//               <label className="block text-gray-700 font-medium mb-2">
+//                 Last Name
+//               </label>
+//               <input
+//                 type="text"
+//                 {...register("lastName", { required: "Last name is required" })}
+//                 className={`w-full border rounded-xl px-5 py-4 ${
+//                   !isEditing ? "bg-gray-100 cursor-not-allowed" : "bg-white"
+//                 }`}
+//                 disabled={!isEditing}
+//               />
+//             </div>
+//           </div>
+
+//           {/* Contact Info */}
+//           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+//             <input
+//               type="text"
+//               placeholder="Phone"
+//               {...register("phone")}
+//               className={`w-full border rounded-xl px-5 py-4 ${
+//                 !isEditing ? "bg-gray-100 cursor-not-allowed" : "bg-white"
+//               }`}
+//               disabled={!isEditing}
+//             />
+//             <input
+//               type="text"
+//               placeholder="Whatsapp"
+//               {...register("whatsapp")}
+//               className={`w-full border rounded-xl px-5 py-4 ${
+//                 !isEditing ? "bg-gray-100 cursor-not-allowed" : "bg-white"
+//               }`}
+//               disabled={!isEditing}
+//             />
+//             <input
+//               type="text"
+//               placeholder="Facebook"
+//               {...register("facebook")}
+//               className={`w-full border rounded-xl px-5 py-4 ${
+//                 !isEditing ? "bg-gray-100 cursor-not-allowed" : "bg-white"
+//               }`}
+//               disabled={!isEditing}
+//             />
+//           </div>
+
+//           {/* Save Button */}
+//           {isEditing && (
+//             <div>
+//               <button
+//                 type="submit"
+//                 disabled={isSaving}
+//                 className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-semibold py-4 rounded-xl shadow-lg hover:from-blue-700 hover:to-indigo-800"
+//               >
+//                 {isSaving ? "Saving..." : "Save Profile"}
+//               </button>
+//             </div>
+//           )}
+//         </form>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default MyProfile;

@@ -5,6 +5,8 @@ import Image from "next/image";
 import { compressAndConvertToBase64 } from "@/components/utils/Function/convertToBase64/compressAndConvertToBase64";
 import { useAppSelector } from "@/components/redux/hooks";
 import { useAddFriendMutation } from "@/components/redux/features/friend/friendsApi";
+import { toast } from "sonner";
+import { sonarId } from "@/components/utils/Function/sonarId";
 
 interface FriendFormData {
   name: string;
@@ -59,6 +61,9 @@ const AddFriend = () => {
 
     const res = await addFriend(finalData).unwrap();
     console.log("Res: ", res);
+    if (res.success) {
+      toast.success("Friend Added Successfully", { id: sonarId });
+    }
 
     reset();
     setImagePreview(null);

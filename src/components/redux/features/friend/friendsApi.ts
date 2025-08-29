@@ -12,7 +12,7 @@ const friendsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     addFriend: builder.mutation({
       query: (adminInfo) => ({
-        url: "/login",
+        url: "/friend",
         method: "POST",
         body: adminInfo,
       }),
