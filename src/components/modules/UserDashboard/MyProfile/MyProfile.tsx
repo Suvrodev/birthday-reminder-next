@@ -196,7 +196,7 @@ const MyProfile = () => {
   if (isLoading) return <MyProfileLoading />;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-4 md:p-8">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 flex items-center justify-center p-0 md:p-8">
       <div className="w-full max-w-4xl bg-white shadow-xl rounded-2xl overflow-hidden transition-all duration-300 hover:shadow-2xl">
         {/* Header */}
         <div className="relative bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-6 md:p-8 flex flex-col md:flex-row justify-between items-center">

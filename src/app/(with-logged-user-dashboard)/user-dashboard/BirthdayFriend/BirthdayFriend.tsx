@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAppSelector } from "@/components/redux/hooks";
 import { useGetAllFriendsQuery } from "@/components/redux/features/friend/friendsApi";
 
@@ -41,7 +41,7 @@ const BirthdayFriend = () => {
     );
   }
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-6">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-0 md:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-10">
@@ -72,7 +72,7 @@ const BirthdayFriend = () => {
             />
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col md:flex-row items-center gap-3">
             <span className="text-gray-700 font-medium">Sort by:</span>
             <select
               value={sortBy}

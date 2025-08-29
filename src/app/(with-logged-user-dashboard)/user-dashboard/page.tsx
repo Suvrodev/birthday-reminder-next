@@ -1,11 +1,16 @@
-import React from "react";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 const UserDashboardPage = () => {
-  return (
-    <div>
-      <h1>USer Dashboard</h1>
-    </div>
-  );
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/user-dashboard/my-profile");
+  }, [router]);
+
+  return null; // কিছু render করার দরকার নাই, শুধু redirect
 };
 
 export default UserDashboardPage;
