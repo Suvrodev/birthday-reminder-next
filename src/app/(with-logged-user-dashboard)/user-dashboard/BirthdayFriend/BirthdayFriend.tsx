@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppSelector } from "@/components/redux/hooks";
 import { useGetAllFriendsQuery } from "@/components/redux/features/friend/friendsApi";
 
@@ -18,8 +18,6 @@ const BirthdayFriend = () => {
   const [page, setPage] = useState(1);
   const limit = 6;
 
-  const [isOpen, setIsOpen] = useState(false);
-
   const { data, isLoading, isError } = useGetAllFriendsQuery(
     {
       ref: user?.email || "",
@@ -35,6 +33,13 @@ const BirthdayFriend = () => {
   const friends = data?.data?.data || [];
   const totalPages = data?.data?.totalPages || 1;
 
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-indigo-500"></div>
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-50 p-6">
       <div className="max-w-7xl mx-auto">
@@ -104,7 +109,7 @@ const BirthdayFriend = () => {
             </p>
           </div>
         ) : friends.length > 0 ? (
-          <div className={` ${isOpen ? "flex gap-20" : ""}`}>
+          <div className={` `}>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
               {friends.map((friend: any) => (
                 <BirthdayFriendCard key={friend._id} friend={friend} />

@@ -1,5 +1,6 @@
 "use client";
 
+import LoginCheck from "@/components/modules/LoggedUser/Login/LoginCheck/LoginCheck";
 import { headerComponents } from "@/components/utils/Array/HeaderComponents";
 import { motion } from "framer-motion";
 import Link from "next/link";
@@ -38,16 +39,9 @@ const Drawer = ({ isOpen, setIsOpen }: Props) => {
               {data.label}
             </Link>
           ))}
-          <Link
-            href={"/map"}
-            className="border-b-1 p-4"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            Map
-          </Link>
-          <div className="flex items-center justify-start p-4">
-            {/* <LoginCheck /> */}
-            <h1>Login Check</h1>
+
+          <div className="mt-10">
+            <LoginCheck />
           </div>
         </div>
       </motion.div>
