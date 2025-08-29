@@ -1,11 +1,12 @@
 import { baseApi } from "../../api/baseApi";
 
-interface GetAllFriendsParams {
+export interface GetAllFriendsParams {
+  ref: string;
   search?: string;
   sort?: "asc" | "desc";
+  sortBy?: "date" | "name" | "rating"; // <-- এখানে যোগ করো
   page?: number;
   limit?: number;
-  ref: string; // ✅ ref is required
 }
 
 const friendsApi = baseApi.injectEndpoints({

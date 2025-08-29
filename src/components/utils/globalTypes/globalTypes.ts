@@ -10,6 +10,16 @@ export type TLoggedUser = {
   isBlocked?: boolean;
 };
 
+export type TFriend = {
+  _id: string;
+  name: string;
+  date: string; // ISO date string
+  photo: string;
+  ratting: number; // rating (0-5)
+  phone: string;
+  location: string;
+  ref: string;
+};
 export type TBanner = {
   title: string;
   url: string;

@@ -191,7 +191,7 @@ const AddFriend = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Full Name */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <FiUser className="mr-2 text-indigo-600" />
                   Full Name
                 </label>
@@ -210,7 +210,7 @@ const AddFriend = () => {
 
               {/* Date of Birth */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <FiCalendar className="mr-2 text-indigo-600" />
                   Date of Birth
                 </label>
@@ -230,7 +230,7 @@ const AddFriend = () => {
 
               {/* Rating */}
               <div className="space-y-4 md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <FiStar className="mr-2 text-indigo-600" />
                   Rating
                 </label>
@@ -256,7 +256,7 @@ const AddFriend = () => {
 
               {/* Phone */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <FiPhone className="mr-2 text-indigo-600" />
                   Phone Number
                 </label>
@@ -277,7 +277,7 @@ const AddFriend = () => {
 
               {/* Location */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700 flex items-center">
+                <label className=" text-sm font-medium text-gray-700 flex items-center">
                   <FiMapPin className="mr-2 text-indigo-600" />
                   Location
                 </label>
