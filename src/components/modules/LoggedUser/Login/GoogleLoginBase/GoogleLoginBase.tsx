@@ -1,7 +1,7 @@
 "use client";
 import { GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
 const clientId =
-  "443326739190-2v64utbr0f4gopjpjech0nrdjt931q91.apps.googleusercontent.com";
+  "1024658014282-cotu2sij52c1hkh8bukfnpmdlpk8n6cp.apps.googleusercontent.com";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useLoginMutation } from "@/components/redux/api/authApi";
 import { verifyToken } from "@/components/utils/Function/verifyToken";

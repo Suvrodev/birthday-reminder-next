@@ -10,7 +10,7 @@ interface IProps {
   children: React.ReactNode;
 }
 const clientId =
-  "443326739190-2v64utbr0f4gopjpjech0nrdjt931q91.apps.googleusercontent.com";
+  "1024658014282-cotu2sij52c1hkh8bukfnpmdlpk8n6cp.apps.googleusercontent.com";
 
 const InnerProviders = ({ children }: IProps) => {
   const dispatch = useDispatch();
