@@ -7,7 +7,7 @@ import GoogleLoginBase from "../GoogleLoginBase/GoogleLoginBase";
 
 const LoginCheck = () => {
   const { user } = useAppSelector((state) => state.auth);
-  console.log("User in Check Login: ", user);
+  // console.log("User in Check Login: ", user);
 
   return (
     <div>
