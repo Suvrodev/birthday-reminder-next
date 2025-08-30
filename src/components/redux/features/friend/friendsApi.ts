@@ -35,6 +35,15 @@ const friendsApi = baseApi.injectEndpoints({
       providesTags: ["friend"],
     }),
 
+    // 📜 Get All Friends Image
+    getAllFriendsImage: builder.query({
+      query: ({ ref }: GetAllFriendsParams) => ({
+        url: `/friend/image?&ref=${ref}`,
+        method: "GET",
+      }),
+      providesTags: ["friend"],
+    }),
+
     getSingleFriend: builder.query({
       query: (id: string) => {
         console.log("ID:", id);

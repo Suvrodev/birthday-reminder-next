@@ -19,8 +19,8 @@ export const USerDrawerComponents = [
     path: "/user-dashboard/birthday",
   },
   {
-    label: "My Friend",
+    label: "Gallery",
     icon: <Users size={20} />,
-    path: "/user-dashboard/my-friend",
+    path: "/user-dashboard/gallery",
   },
 ];
