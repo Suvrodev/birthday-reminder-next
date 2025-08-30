@@ -198,8 +198,15 @@ const AddFriend = () => {
                 <input
                   type="text"
                   placeholder="Enter full name"
+                  maxLength={55} // <-- limit to 55 characters
                   className="w-full px-4 py-3.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors pl-10"
-                  {...register("name", { required: "Name is required" })}
+                  {...register("name", {
+                    required: "Name is required",
+                    maxLength: {
+                      value: 25,
+                      message: "Name cannot exceed 55 characters",
+                    },
+                  })}
                 />
                 {errors.name && (
                   <p className="text-red-500 text-sm mt-1">
@@ -234,24 +241,49 @@ const AddFriend = () => {
                   <FiStar className="mr-2 text-indigo-600" />
                   Rating
                 </label>
+
                 <div className="flex items-center space-x-4">
-                  <input
-                    type="range"
-                    min="1"
-                    max="5"
-                    defaultValue="3"
-                    className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-indigo-600 [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg"
-                    {...register("ratting", { required: "Rating is required" })}
-                  />
-                  <div className="flex items-center justify-center bg-indigo-100 text-indigo-700 font-bold w-10 h-10 rounded-full shadow-inner">
-                    {ratingValue}
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setValue("ratting", Math.max(1, ratingValue - 1))
+                    }
+                    className="w-[46px] h-[46px] font-bold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                  >
+                    -
+                  </button>
+
+                  <div className="flex items-center space-x-4 w-full">
+                    <input
+                      type="range"
+                      min="1"
+                      max="5"
+                      defaultValue="3"
+                      className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-indigo-600 [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white [&::-webkit-slider-thumb]:shadow-lg"
+                      {...register("ratting", {
+                        required: "Rating is required",
+                      })}
+                    />
+                    <div className="flex items-center justify-center bg-indigo-100 text-indigo-700 font-bold w-10 h-10 rounded-full shadow-inner">
+                      {ratingValue}
+                    </div>
                   </div>
+                  {errors.ratting && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.ratting.message}
+                    </p>
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setValue("ratting", Math.min(5, ratingValue + 1))
+                    }
+                    className="w-[46px] h-[46px] font-bold bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors"
+                  >
+                    +
+                  </button>
                 </div>
-                {errors.ratting && (
-                  <p className="text-red-500 text-sm mt-1">
-                    {errors.ratting.message}
-                  </p>
-                )}
               </div>
 
               {/* Phone */}

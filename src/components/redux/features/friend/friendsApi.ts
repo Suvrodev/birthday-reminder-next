@@ -34,7 +34,44 @@ const friendsApi = baseApi.injectEndpoints({
       }),
       providesTags: ["friend"],
     }),
+
+    getSingleFriend: builder.query({
+      query: (id: string) => {
+        console.log("ID:", id);
+        return {
+          url: `/friend/single/${id}`,
+          method: "GET",
+        };
+      },
+    }),
+
+    deleteFriend: builder.mutation({
+      query: ({ id }) => {
+        console.log("in redux id");
+        return {
+          url: `/friend/delete/${id}`,
+          method: "DELETE",
+        };
+      },
+      invalidatesTags: ["friend"],
+    }),
+    updateFriend: builder.mutation({
+      query: ({ id, updateData }) => {
+        return {
+          url: `/friend/update/${id}`,
+          method: "PATCH",
+          body: updateData,
+        };
+      },
+      invalidatesTags: ["friend"],
+    }),
   }),
 });
 
-export const { useAddFriendMutation, useGetAllFriendsQuery } = friendsApi;
+export const {
+  useAddFriendMutation,
+  useGetAllFriendsQuery,
+  useGetSingleFriendQuery,
+  useDeleteFriendMutation,
+  useUpdateFriendMutation,
+} = friendsApi;

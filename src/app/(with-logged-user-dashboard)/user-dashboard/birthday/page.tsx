@@ -1,5 +1,5 @@
+import BirthdayFriend from "@/components/modules/User-Dashboard/BirthdayFriend/BirthdayFriend";
 import React from "react";
-import BirthdayFriend from "../BirthdayFriend/BirthdayFriend";
 
 const BirthdayPage = () => {
   return (

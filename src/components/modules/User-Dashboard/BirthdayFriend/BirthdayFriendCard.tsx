@@ -10,19 +10,18 @@ import {
   FiStar,
   FiGift,
   FiEdit,
-  FiTrash2,
   FiMessageSquare,
   FiBell,
 } from "react-icons/fi";
+import DeleteFriendButton from "./DeleteFriendButton";
+import Link from "next/link";
 
 interface IProps {
   friend: TFriend;
   isEdit: boolean;
-  onEdit?: (friend: TFriend) => void;
-  onDelete?: (friendId: string) => void;
 }
 
-const BirthdayFriendCard = ({ friend, isEdit, onEdit, onDelete }: IProps) => {
+const BirthdayFriendCard = ({ friend, isEdit }: IProps) => {
   const daysUntilBirthday = getDaysUntilBirthday(friend.date);
 
   const getGradient = () => {
@@ -43,20 +42,14 @@ const BirthdayFriendCard = ({ friend, isEdit, onEdit, onDelete }: IProps) => {
     return "bg-white/20 text-white";
   };
 
-  // const getStatus = () => {
-  //   if (daysUntilBirthday === 0) return "365 days"; // Show 365 days for next birthday
-  //   return `${daysUntilBirthday} ${
-  //     daysUntilBirthday === 1 ? "day" : "days"
-  //   } until birthday`;
-  // };
-
   const getStatus = () => {
-    console.log("-------------daysUntilBirthday: ", daysUntilBirthday);
+    // console.log("-------------daysUntilBirthday: ", daysUntilBirthday);
     if (daysUntilBirthday === 0) return "TODAY!"; // ✅
     return `${daysUntilBirthday} ${
       daysUntilBirthday === 1 ? "day" : "days"
     } until birthday`;
   };
+
   return (
     <div
       className={`overflow-hidden border-0 shadow-lg rounded-2xl ${getGradient()} text-white transition-all duration-300 hover:shadow-xl hover:-translate-y-1`}
@@ -93,20 +86,22 @@ const BirthdayFriendCard = ({ friend, isEdit, onEdit, onDelete }: IProps) => {
           </div>
           {isEdit && (
             <div className="flex gap-2">
-              <button
-                onClick={() => onEdit?.(friend)}
+              <Link
+                href={`/user-dashboard/update-friend/${friend._id}`}
                 className="p-2 bg-white/20 rounded-full hover:bg-white/30 transition-colors"
                 title="Edit"
               >
                 <FiEdit size={14} className="text-white" />
-              </button>
-              <button
-                onClick={() => onDelete?.(friend._id)}
+              </Link>
+              {/* <button
+                onClick={() => handleDelete(friend._id)}
                 className="p-2 bg-white/20 rounded-full hover:bg-white/30 transition-colors"
                 title="Delete"
               >
                 <FiTrash2 size={14} className="text-white" />
-              </button>
+              </button> */}
+
+              <DeleteFriendButton friendId={friend._id} />
             </div>
           )}
         </div>
