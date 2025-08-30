@@ -1,12 +1,12 @@
 "use client";
-import logo from "@/app/assets/logo/logo-1.jpg";
-import Image from "next/image";
+
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { headerComponents } from "@/components/utils/Array/HeaderComponents";
 import LoginCheck from "../../LoggedUser/Login/LoginCheck/LoginCheck";
 import { useState } from "react";
 import { THeader } from "@/components/utils/globalTypes/globalTypes";
+import { Cake } from "lucide-react";
 
 const PublicHeader = () => {
   const path = usePathname();
@@ -18,18 +18,14 @@ const PublicHeader = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo Section */}
           <Link href="/" className="flex items-center gap-x-3 flex-shrink-0">
-            <div className="relative w-12 h-12 rounded-lg bg-gradient-to-r from-purple-600 to-indigo-700 flex items-center justify-center">
-              <Image
-                src={logo}
-                alt="Tutor Point"
-                width={48}
-                height={48}
-                className="rounded-md"
-              />
+            <div className="flex items-center space-x-2">
+              <div className="p-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full">
+                <Cake className="h-6 w-6 text-white" />
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-blue-500 to-purple-600 bg-clip-text text-transparent">
+                Birthday Reminder
+              </span>
             </div>
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-700 bg-clip-text text-transparent">
-              Tutor Point
-            </h1>
           </Link>
 
           {/* Desktop Navigation */}

@@ -130,7 +130,7 @@ const AddFriend = () => {
                     src={imagePreview}
                     alt="Preview"
                     fill
-                    className="object-cover"
+                    className="object-cover rounded-4xl"
                     unoptimized
                   />
                 </div>

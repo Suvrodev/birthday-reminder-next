@@ -17,11 +17,11 @@ const InnerProviders = ({ children }: IProps) => {
   useEffect(() => {
     const fetchToken = async () => {
       const token = await getCurrentUserToken();
-      console.log("Token from Innter Provider: ", token);
+      // console.log("Token from Innter Provider: ", token);
       if (token) {
         try {
           const currentUser = verifyToken(token);
-          console.log("User form Inner Provider----------: ", currentUser);
+          // console.log("User form Inner Provider----------: ", currentUser);
           dispatch(setUser({ user: currentUser, token }));
         } catch (err) {
           console.error("verifyToken failed:", err);
