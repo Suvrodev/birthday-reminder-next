@@ -11,15 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import {
-  Bell,
-  Calendar,
-  Cake,
-  Gift,
-  PartyPopper,
-  Plus,
-  Trash2,
-} from "lucide-react";
+import { Bell, Calendar, PartyPopper, Plus, Trash2 } from "lucide-react";
 import HeroSection from "./HeroSection/HeroSection";
 import CelebrationSection from "./CelebrationSection/CelebrationSection";
 import Footer from "./Footer/Footer";

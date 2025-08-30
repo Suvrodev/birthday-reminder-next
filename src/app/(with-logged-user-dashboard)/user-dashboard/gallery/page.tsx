@@ -60,7 +60,7 @@ const FriendGallery = () => {
             📸 Friend Gallery
           </h1>
           <p className="text-gray-600 max-w-2xl mx-auto">
-            Browse all your friend's photos in a beautiful gallery
+            Browse all your friend`s photos in a beautiful gallery
           </p>
         </div>
 
